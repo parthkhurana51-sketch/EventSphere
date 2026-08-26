@@ -1,19 +1,24 @@
+@"
 # Python
-backend/venv/
 __pycache__/
 *.py[cod]
-
-# Environment variables
+.venv/
+venv/
 .env
-.env.*
 
-# Node
+# Generated EventSphere files
+backend/generated_qr/*
+backend/generated_certificates/*
+
+# Frontend
 frontend/node_modules/
 frontend/dist/
 
 # IDE
 .vscode/
+.idea/
 
 # OS
 .DS_Store
 Thumbs.db
+"@ | Out-File -Encoding utf8 .gitignore
