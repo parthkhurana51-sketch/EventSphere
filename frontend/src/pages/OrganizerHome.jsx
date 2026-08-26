@@ -27,7 +27,7 @@ function OrganizerHome() {
     const fetchHomeData = async () => {
       try {
         const eventsResponse = await fetch(
-          "${API_BASE_URL}/api/events/"
+          `${API_BASE_URL}/api/events/`
         );
 
         const eventsData =
@@ -48,7 +48,7 @@ function OrganizerHome() {
         }
 
         const statsResponse = await fetch(
-          "${API_BASE_URL}/api/registrations/organizer/stats",
+          `${API_BASE_URL}/api/registrations/organizer/stats`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -513,3 +513,4 @@ function OrganizerHome() {
 }
 
 export default OrganizerHome;
+

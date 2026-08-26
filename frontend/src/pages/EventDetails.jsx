@@ -54,7 +54,7 @@ function EventDetails() {
 
     try {
       const response = await fetch(
-        "${API_BASE_URL}/api/registrations/",
+        `${API_BASE_URL}/api/registrations/`,
         {
           method: "POST",
           headers: {
@@ -390,3 +390,4 @@ function EventDetails() {
 }
 
 export default EventDetails;
+

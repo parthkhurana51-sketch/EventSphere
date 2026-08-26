@@ -21,7 +21,7 @@ function Certificates() {
     const fetchCertificates = async () => {
       try {
         const response = await fetch(
-          "${API_BASE_URL}/api/certificates/my",
+          `${API_BASE_URL}/api/certificates/my`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -313,3 +313,4 @@ function Certificates() {
 }
 
 export default Certificates;
+

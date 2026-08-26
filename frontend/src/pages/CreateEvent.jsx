@@ -38,7 +38,7 @@ function CreateEvent() {
 
     try {
       const response = await fetch(
-        "${API_BASE_URL}/api/events/",
+        `${API_BASE_URL}/api/events/`,
         {
           method: "POST",
           headers: {
@@ -286,3 +286,4 @@ function CreateEvent() {
 }
 
 export default CreateEvent;
+

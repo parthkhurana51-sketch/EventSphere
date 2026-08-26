@@ -21,7 +21,7 @@ function Dashboard() {
     const fetchRegistrations = async () => {
       try {
         const response = await fetch(
-          "${API_BASE_URL}/api/registrations/my",
+          `${API_BASE_URL}/api/registrations/my`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -381,3 +381,4 @@ function Dashboard() {
 }
 
 export default Dashboard;
+
