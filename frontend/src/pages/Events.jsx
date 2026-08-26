@@ -17,7 +17,7 @@ function Events() {
     const fetchEvents = async () => {
       try {
         const response = await fetch(
-          "http://127.0.0.1:8000/api/events/"
+          "${API_BASE_URL}/api/events/"
         );
 
         const data = await response.json();

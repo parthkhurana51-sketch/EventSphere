@@ -21,7 +21,7 @@ function Dashboard() {
     const fetchRegistrations = async () => {
       try {
         const response = await fetch(
-          "http://127.0.0.1:8000/api/registrations/my",
+          "${API_BASE_URL}/api/registrations/my",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -351,7 +351,7 @@ function Dashboard() {
                                 className="qr-button"
                                 onClick={() =>
                                     window.open(
-                                    `http://127.0.0.1:8000${registration.qr_code_url}`,
+                                    `${API_BASE_URL}${registration.qr_code_url}`,
                                     "_blank"
                                     )
                                 }

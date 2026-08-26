@@ -38,7 +38,7 @@ function CreateEvent() {
 
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/api/events/",
+        "${API_BASE_URL}/api/events/",
         {
           method: "POST",
           headers: {

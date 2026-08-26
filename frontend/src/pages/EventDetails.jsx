@@ -20,7 +20,7 @@ function EventDetails() {
     const fetchEvent = async () => {
       try {
         const response = await fetch(
-          `http://127.0.0.1:8000/api/events/${id}`
+          `${API_BASE_URL}/api/events/${id}`
         );
 
         const data = await response.json();
@@ -54,7 +54,7 @@ function EventDetails() {
 
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/api/registrations/",
+        "${API_BASE_URL}/api/registrations/",
         {
           method: "POST",
           headers: {

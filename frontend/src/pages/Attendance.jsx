@@ -34,7 +34,7 @@ function Attendance() {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/registrations/check-in?qr_token=${encodeURIComponent(
+        `${API_BASE_URL}/api/registrations/check-in?qr_token=${encodeURIComponent(
           qrToken.trim()
         )}`,
         {

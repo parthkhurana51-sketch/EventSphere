@@ -27,7 +27,7 @@ function OrganizerEventDetails() {
     const fetchData = async () => {
       try {
         const eventResponse = await fetch(
-          `http://127.0.0.1:8000/api/events/${id}`
+          `${API_BASE_URL}/api/events/${id}`
         );
 
         const eventData = await eventResponse.json();
@@ -41,7 +41,7 @@ function OrganizerEventDetails() {
         setEvent(eventData);
 
         const registrationResponse = await fetch(
-          `http://127.0.0.1:8000/api/registrations/event/${id}`,
+          `${API_BASE_URL}/api/registrations/event/${id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -99,7 +99,7 @@ function OrganizerEventDetails() {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/events/${id}`,
+        `${API_BASE_URL}/api/events/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -139,7 +139,7 @@ function OrganizerEventDetails() {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/certificates/issue/${registrationId}`,
+        `${API_BASE_URL}/api/certificates/issue/${registrationId}`,
         {
           method: "POST",
           headers: {
@@ -191,7 +191,7 @@ function OrganizerEventDetails() {
     }
 
     window.open(
-      `http://127.0.0.1:8000${certificateUrl}`,
+      `${API_BASE_URL}${certificateUrl}`,
       "_blank"
     );
   };

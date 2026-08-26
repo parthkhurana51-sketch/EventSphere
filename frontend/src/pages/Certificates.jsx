@@ -21,7 +21,7 @@ function Certificates() {
     const fetchCertificates = async () => {
       try {
         const response = await fetch(
-          "http://127.0.0.1:8000/api/certificates/my",
+          "${API_BASE_URL}/api/certificates/my",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -63,7 +63,7 @@ function Certificates() {
     if (!certificateUrl) return;
 
     window.open(
-      `http://127.0.0.1:8000${certificateUrl}`,
+      `${API_BASE_URL}${certificateUrl}`,
       "_blank"
     );
   };
