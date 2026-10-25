@@ -45,6 +45,15 @@ def register_for_event(
             detail="Event not found"
         )
 
+    
+    # Prevent organizers from registering for their own events
+    if event.organizer_id == current_user["user_id"]:
+        raise HTTPException(
+            status_code=400,
+            detail="Event organizers cannot register for their own events"
+        )
+
+
     existing_registration = db.query(Registration).filter(
         Registration.user_id == current_user["user_id"],
         Registration.event_id == registration.event_id
