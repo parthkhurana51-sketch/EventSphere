@@ -3,7 +3,8 @@ from sqlalchemy.orm import Session
 from datetime import datetime, timezone
 import uuid
 from services.certificate_service import generate_certificate_pdf
-
+from models.certificate_template import CertificateTemplate
+from schemas.certificate_template import CertificateTemplateUpdate
 from database import SessionLocal
 from routers.auth import get_current_user
 
@@ -139,6 +140,152 @@ def issue_certificate(
         "registration_id": certificate.registration_id,
         "issued_at": certificate.issued_at,
         "certificate_url": certificate.certificate_url
+    }
+
+
+# =========================================================
+# CERTIFICATE TEMPLATE SETTINGS
+# =========================================================
+
+@router.get("/template/{event_id}")
+def get_certificate_template(
+    event_id: int,
+    current_user: dict = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    if current_user["role"] != "organizer":
+        raise HTTPException(
+            status_code=403,
+            detail="Only organizers can manage certificate templates"
+        )
+
+    event = db.query(Event).filter(Event.id == event_id).first()
+
+    if not event:
+        raise HTTPException(
+            status_code=404,
+            detail="Event not found"
+        )
+
+    if event.organizer_id != current_user["user_id"]:
+        raise HTTPException(
+            status_code=403,
+            detail="You do not own this event"
+        )
+
+    template = db.query(CertificateTemplate).filter(
+        CertificateTemplate.event_id == event_id
+    ).first()
+
+    if not template:
+        return {
+            "event_id": event_id,
+            "organization_name": None,
+            "logo_url": None,
+            "certificate_title": "Certificate of Participation",
+            "certificate_text": (
+                "This certificate is presented to "
+                "{participant_name} for participating in {event_name}."
+            ),
+            "primary_color": "#1D4ED8",
+            "signer_name": None,
+            "signer_title": None,
+            "saved": False
+        }
+
+    return {
+        "event_id": template.event_id,
+        "organization_name": template.organization_name,
+        "logo_url": template.logo_url,
+        "certificate_title": template.certificate_title,
+        "certificate_text": template.certificate_text,
+        "primary_color": template.primary_color,
+        "signer_name": template.signer_name,
+        "signer_title": template.signer_title,
+        "saved": True
+    }
+
+
+@router.put("/template/{event_id}")
+def save_certificate_template(
+    event_id: int,
+    payload: CertificateTemplateUpdate,
+    current_user: dict = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    if current_user["role"] != "organizer":
+        raise HTTPException(
+            status_code=403,
+            detail="Only organizers can manage certificate templates"
+        )
+
+    event = db.query(Event).filter(Event.id == event_id).first()
+
+    if not event:
+        raise HTTPException(
+            status_code=404,
+            detail="Event not found"
+        )
+
+    if event.organizer_id != current_user["user_id"]:
+        raise HTTPException(
+            status_code=403,
+            detail="You do not own this event"
+        )
+
+    updates = payload.dict(exclude_unset=True)
+
+    if "certificate_title" in updates:
+        if not updates["certificate_title"] or not updates["certificate_title"].strip():
+            raise HTTPException(
+                status_code=422,
+                detail="Certificate title cannot be empty"
+            )
+
+    if "primary_color" in updates:
+        import re
+
+        if not re.fullmatch(r"#[0-9a-fA-F]{6}", updates["primary_color"] or ""):
+            raise HTTPException(
+                status_code=422,
+                detail="Primary color must be a hexadecimal color such as #1D4ED8"
+            )
+
+    template = db.query(CertificateTemplate).filter(
+        CertificateTemplate.event_id == event_id
+    ).first()
+
+    if template:
+        for field, value in updates.items():
+            setattr(template, field, value)
+    else:
+        template = CertificateTemplate(
+            event_id=event_id,
+            **updates
+        )
+        db.add(template)
+
+    try:
+        db.commit()
+        db.refresh(template)
+    except Exception:
+        db.rollback()
+        raise HTTPException(
+            status_code=500,
+            detail="Could not save certificate template"
+        )
+
+    return {
+        "message": "Certificate template saved successfully",
+        "event_id": template.event_id,
+        "organization_name": template.organization_name,
+        "logo_url": template.logo_url,
+        "certificate_title": template.certificate_title,
+        "certificate_text": template.certificate_text,
+        "primary_color": template.primary_color,
+        "signer_name": template.signer_name,
+        "signer_title": template.signer_title,
+        "saved": True
     }
 
 # =========================================================
