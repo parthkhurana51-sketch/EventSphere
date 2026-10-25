@@ -284,24 +284,31 @@ function OrganizerDashboard() {
                   </p>
                 </div>
 
+                
                 <div className="registration-footer">
+                 <span>Event #{event.id}</span>
 
-                  <span>
-                    Event #{event.id}
-                  </span>
+                 <div className="event-card-actions">
+                  <button
+                    className="customize-certificate-button"
+                    onClick={() =>
+                      navigate(`/organizer/events/${event.id}/certificate`)
+                    }
+                  >
+                    Customize Certificate
+                  </button>
 
                   <button
                     className="manage-event-button"
                     onClick={() =>
-                      navigate(
-                        `/organizer/events/${event.id}`
-                      )
+                      navigate(`/organizer/events/${event.id}`)
                     }
                   >
                     Manage
                   </button>
-
+                 </div>
                 </div>
+
 
               </div>
 

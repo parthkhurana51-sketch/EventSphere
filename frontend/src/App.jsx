@@ -14,6 +14,7 @@ import EditEvent from "./pages/EditEvent";
 import ParticipantHome from "./pages/ParticipantHome";
 import OrganizerHome from "./pages/OrganizerHome";
 import Certificates from "./pages/Certificates";
+import CertificateCustomization from "./pages/CertificateCustomization";
 
 function App() {
   return (
@@ -50,6 +51,14 @@ function App() {
           element={
             <ProtectedRoute requiredRole="organizer">
               <EditEvent />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/organizer/events/:id/certificate"
+          element={
+            <ProtectedRoute requiredRole="organizer">
+              <CertificateCustomization />
             </ProtectedRoute>
           }
         />
