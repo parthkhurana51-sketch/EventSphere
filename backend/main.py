@@ -20,7 +20,7 @@ from models.attendance import Attendance
 from models.volunteer import Volunteer
 from models.certificate import Certificate
 from models.feedback import Feedback
-
+from models.certificate_template import CertificateTemplate
 
 app = FastAPI(title="EventSphere API")
 
